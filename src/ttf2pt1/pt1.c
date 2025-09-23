@@ -4839,7 +4839,11 @@ static struct ray ray[3];
 
 static int
 fcrossraysxx(
-	double crossdot[2][2]
+	/* double crossdot[2][2]
+	 * part of the fix of the issue 'fcrossraysxx' accessing 32 bytes in a region
+	 * of size 16 [-Wstringop-overflow=] */
+	double row0[2],
+  double row1[2]
 )
 {
 	double x, y, max;
@@ -4892,9 +4896,15 @@ fcrossraysxx(
 		if(ray[i].maxp)
 			*ray[i].maxp = max;
 	}
-	if(crossdot != 0) {
-		crossdot[0][0] = crossdot[1][0] = x;
-		crossdot[0][1] = crossdot[1][1] = y;
+	/* if(crossdot != 0) {
+	 * 		crossdot[0][0] = crossdot[1][0] = x;
+	 * 		crossdot[0][1] = crossdot[1][1] = y;
+	 * 		}
+	 * part of the fix of the issue 'fcrossraysxx' accessing 32 bytes in a region
+	 * of size 16 [-Wstringop-overflow=] */
+  if(row0 && row1) {
+	  row0[0] = row1[0] = x;
+	  row0[1] = row1[1] = y;
 	}
 	return 1;
 }
@@ -4925,7 +4935,11 @@ fcrossrayscv(
 	ray[1].y2 = curve[3][Y];
 	ray[1].maxp = max2;
 
-	return fcrossraysxx(&curve[1]);
+
+	/* return fcrossraysxx(&curve[1]);
+	 * part of the fix of the issue 'fcrossraysxx' accessing 32 bytes in a region
+	 * of size 16 [-Wstringop-overflow=] */
+  return fcrossraysxx(curve[1], curve[2]);
 }
 
 /* the front-end getting the arguments from gentries:
@@ -4959,7 +4973,10 @@ fcrossraysge(
 	}
 	ray[1].maxp = max2;
 
-	return fcrossraysxx(crossdot);
+	/* return fcrossraysxx(crossdot);
+	 * part of the fix of the issue 'fcrossraysxx' accessing 32 bytes in a region
+	 * of size 16 [-Wstringop-overflow=] */
+	return fcrossraysxx(crossdot[0], crossdot[1]);
 }
 
 /* debugging printout functions */

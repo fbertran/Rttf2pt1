@@ -4,5 +4,6 @@
 src/*.o
 src/*.so
 src/*.dll
+src/ttf2pt1/*.o
 ^cran-comments.md*
 .DS_Store

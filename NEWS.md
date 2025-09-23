@@ -8,6 +8,8 @@ Version 1.3.13
   
 * Fixed C code compilation warnings : -Wcomment, -Wparentheses, 
   -Wunused-function, -Wunused-label, -Wunused-but-set-variable, -Wdeprecated-declarations
+  
+* Fixed gcc-ASAN -Wstringop-overflow issue
 
 Version 1.3.12
 --------------
