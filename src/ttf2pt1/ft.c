@@ -215,7 +215,7 @@ glmetrics(
 }
 
 /*
- * Get the original encoding of the font. 
+ * Get the original encoding of the font.
  * Returns 1 for if the original encoding is Unicode, 2 if the
  * original encoding is other 16-bit, 0 if 8-bit.
  */
@@ -230,9 +230,9 @@ glenc(
 	int i, e;
 	unsigned code;
 
-	if(ISDBG(FT)) 
+	if(ISDBG(FT))
 		for(e=0; e < face->num_charmaps; e++) {
-			fprintf(stderr, "found encoding pid=%d eid=%d\n", 
+			fprintf(stderr, "found encoding pid=%d eid=%d\n",
 				face->charmaps[e]->platform_id,
 				face->charmaps[e]->encoding_id);
 		}
@@ -248,7 +248,7 @@ glenc(
 		for(e=0; e < face->num_charmaps; e++) {
 			if(face->charmaps[e]->platform_id == force_pid
 			&& face->charmaps[e]->encoding_id == force_eid) {
-				WARNING_1 fprintf(stderr, "Found Encoding PID=%d/EID=%d\n", 
+				WARNING_1 fprintf(stderr, "Found Encoding PID=%d/EID=%d\n",
 					force_pid, force_eid);
 				if( !face->charmaps || FT_Set_Charmap(face, face->charmaps[e]) ) {
 					fprintf(stderr, "**** Cannot set charmap in FreeType ****\n");
@@ -258,7 +258,7 @@ glenc(
 				goto populate_map;
 			}
 		}
-		fprintf(stderr, "*** TTF encoding table PID=%d/EID=%d not found\n", 
+		fprintf(stderr, "*** TTF encoding table PID=%d/EID=%d not found\n",
 			force_pid, force_eid);
 		exit(1);
 	}
@@ -304,7 +304,7 @@ glenc(
 		WARNING_1 fputs("No Microsoft encoding, using first encoding available\n", stderr);
 		e = 0;
 	}
-	
+
 	if( FT_Set_Charmap(face, face->charmaps[e]) ) {
 		fprintf(stderr, "**** Cannot set charmap in FreeType ****\n");
 		exit(1);
@@ -335,7 +335,7 @@ populate_map:
 /*
  * Get the font metrics
  */
-static void 
+static void
 fnmetrics(
 	struct font_metrics *fm
 )
@@ -378,7 +378,7 @@ fnmetrics(
 		fm->name_style = "";
 
 #ifdef ENABLE_SFNT
-	if( FT_Get_Sfnt_Name(face, TT_NAME_ID_FULL_NAME, &sn) ) 
+	if( FT_Get_Sfnt_Name(face, TT_NAME_ID_FULL_NAME, &sn) )
 #endif /* ENABLE_SFNT */
 	{
 		int len;
@@ -393,7 +393,7 @@ fnmetrics(
 			strcat(fm->name_full, " ");
 			strcat(fm->name_full, fm->name_style);
 		}
-	} 
+	}
 #ifdef ENABLE_SFNT
 	else
 		fm->name_full = dupcnstring(sn.string, sn.string_len);
@@ -421,7 +421,7 @@ fnmetrics(
 #endif /* ENABLE_SFNT */
 	for(i=0; fm->name_ps[i]!=0; i++)
 		if(fm->name_ps[i] == ' ')
-			fm->name_ps[i] = '_'; /* no spaces in the Postscript name *m
+			fm->name_ps[i] = '_'; /* no spaces in the Postscript name */
 
 	/* guess the boldness from the font names */
 	fm->force_bold=0;
@@ -435,7 +435,7 @@ fnmetrics(
 		len = strlen(str);
 		for(j=0; j<len; j++) {
 			if( (str[j]=='B'
-				|| str[j]=='b' 
+				|| str[j]=='b'
 					&& ( j==0 || !isalpha(str[j-1]) )
 				)
 			&& !strncmp("old",&str[j+1],3)
@@ -555,7 +555,7 @@ glpath(
 
 	curg = &glyf_list[glyphno];
 
-	if( FT_Load_Glyph(face, glyphno, FT_LOAD_NO_BITMAP|FT_LOAD_NO_SCALE|FT_LOAD_NO_HINTING) 
+	if( FT_Load_Glyph(face, glyphno, FT_LOAD_NO_BITMAP|FT_LOAD_NO_SCALE|FT_LOAD_NO_HINTING)
 	|| face->glyph->format != ft_glyph_format_outline ) {
 		fprintf(stderr, "Can't load glyph %s, skipped\n", curg->name);
 		return;

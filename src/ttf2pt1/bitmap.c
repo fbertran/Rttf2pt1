@@ -1201,8 +1201,8 @@ bmp_outline(
 				(k2 & GEXFF_LONG) ? 'L' : '-' \
 			); \
 		} \
-		if( (k1 & GEXFF_EXTR) && (k2 & GEXFF_LONG) \
-		|| (k2 & GEXFF_EXTR) && (k1 & GEXFF_LONG) ) { \
+		if( ((k1 & GEXFF_EXTR) && (k2 & GEXFF_LONG)) \
+		|| ((k2 & GEXFF_EXTR) && (k1 & GEXFF_LONG)) ) { \
 			smooth = 0; \
 			good = reversal = -1; /* for debugging */ \
 		} else { \
