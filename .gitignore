@@ -7,3 +7,4 @@ src/*.dll
 src/ttf2pt1/*.o
 ^cran-comments.md*
 .DS_Store
+src/ttf2pt1/ttf2pt1
