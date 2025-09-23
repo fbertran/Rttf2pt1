@@ -74,8 +74,10 @@ Description: Contains the program 'ttf2pt1', for use with the
     Project and its contributors.
 Depends:
     R (>= 2.15)
+Suggests: testthat, Suggests: withr (>= 2.5.0)
 License: file LICENSE
 URL: https://github.com/fbertran/Rttf2pt1
 BugReports: https://github.com/fbertran/Rttf2pt1/issues
 Encoding: UTF-8
 RoxygenNote: 7.3.3
+Config/testthat/edition: 3
