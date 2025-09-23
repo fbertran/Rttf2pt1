@@ -90,7 +90,55 @@
 #  define BITBUCKET "/dev/null"
 #endif
 
+/* code addition to fix [-Wimplicit-function-declaration] on Windows*/
+/* ---------- getopt portability (Windows shim) ---------- */
+#if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS)
+static char *optarg = NULL;
+static int optind = 1;
+static int opterr = 0;
+static int ttf2pt1_getopt_impl(int argc, char * const argv[], const char *optstring) {
+    static int optpos = 1;
+    const char *arg;
+    char c; const char *spec;
+    optarg = NULL;
+    if (optind >= argc) return -1;
+    arg = argv[optind];
+    if (arg[0] != '-' || arg[1] == '\0') return -1;
+    c = arg[optpos++];
+    if (c == '-') { optind++; optpos = 1; return -1; }
+    spec = strchr(optstring, c);
+    if (!spec) {
+        if (arg[optpos] == '\0') { optind++; optpos = 1; }
+        return '?';
+    }
+    if (spec[1] == ':') {
+        if (arg[optpos] != '\0') {
+            optarg = (char *)&arg[optpos];
+            optind++; optpos = 1;
+        } else if (optind + 1 < argc) {
+            optarg = argv[++optind];
+            optind++; optpos = 1;
+        } else {
+            return ':'; /* missing argument */
+        }
+    } else {
+        if (arg[optpos] == '\0') { optind++; optpos = 1; }
+    }
+    return (unsigned char)c;
+}
+#endif
 
+/* code addition to fix [-Wimplicit-function-declaration] on Windows*/
+/* ---------- POSIX process API stubs on Windows ---------- */
+#if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS)
+#  include <errno.h>
+#  define pipe  ttf2pt1_pipe_stub
+#  define fork  ttf2pt1_fork_stub
+#  define wait  ttf2pt1_wait_stub
+static int ttf2pt1_pipe_stub(int pfd[2])       { (void)pfd; errno = ENOSYS; return -1; }
+static int ttf2pt1_fork_stub(void)             { errno = ENOSYS; return -1; }
+static int ttf2pt1_wait_stub(int *ws)          { (void)ws; errno = ENOSYS; return -1; }
+#endif
 
 #include "pt1.h"
 #include "global.h"
@@ -1728,8 +1776,13 @@ main(
 	int             oc;
 	int             subid;
 	char           *cmdline;
-#ifdef _GNU_SOURCE
-#	define ttf2pt1_getopt(a, b, c, d, e)	getopt_long(a, b, c, d, e)
+
+/* #ifdef _GNU_SOURCE to fix [-Wimplicit-function-declaration] on Windows*/
+	#if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS)
+	#	define ttf2pt1_getopt(a, b, c, d, e)	ttf2pt1_getopt_impl((a),(b),(c))
+	#elif defined(_GNU_SOURCE)
+
+  #	define ttf2pt1_getopt(a, b, c, d, e)	getopt_long(a, b, c, d, e)
 	static struct option longopts[] = {
 		{ "afm", 0, NULL, 'A' },
 		{ "all-glyphs", 0, NULL, 'a' },

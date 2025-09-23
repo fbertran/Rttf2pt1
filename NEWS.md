@@ -15,6 +15,8 @@ Version 1.3.13
 
 * Fixed include of <netinet/in.h> on Windows systems
 
+* Fixed [-Wimplicit-function-declaration] in Windows CRAN checks
+
 Version 1.3.12
 --------------
 
