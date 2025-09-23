@@ -170,3 +170,15 @@ typedef struct ttf_post_head {
 	USHORT	numGlyphs;
 	USHORT	glyphNameIndex;
 } TTF_POST_HEAD ;
+
+#ifndef UNUSED
+#  define UNUSED(x) (void)(x)
+#endif
+
+#ifndef RTTF2PT1_UNUSED
+# if defined(__GNUC__) || defined(__clang__)
+#  define RTTF2PT1_UNUSED __attribute__((unused))
+# else
+#  define RTTF2PT1_UNUSED
+# endif
+#endif

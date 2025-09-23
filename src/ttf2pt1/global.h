@@ -87,7 +87,7 @@ extern int      numglyphs;
 #endif
 
 /* uncomment the next line if debugging data is wanted for one glyph only */
-/* #define DBG_GLYPH	"C118"  /* */
+/* #define DBG_GLYPH	"C118"  */
 
 #if DEBUG==0
 #	define ISDBG(name)	(0)
@@ -129,7 +129,7 @@ struct font_metrics {
 	short	is_fixed_pitch;
 
 	/* hhea */
-	short	ascender; 
+	short	ascender;
 	short	descender;
 
 	/* head */
@@ -171,3 +171,4 @@ struct frontsw {
 	void  (*glpath)(int glyphno, GLYPH *glyphs); /* get the glyph path */
 	void  (*kerning)(GLYPH *glyph_list); /* extract the kerning data */
 };
+
