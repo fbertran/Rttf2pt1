@@ -23,6 +23,8 @@ Version 1.3.13
   
 * Added lib to windows makefile
 
+* Added basic unit tests
+
 Version 1.3.12
 --------------
 
