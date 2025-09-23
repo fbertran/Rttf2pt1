@@ -16,7 +16,7 @@
 #if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS)
 #  define WINDOWS_FUNCTIONS /* ask to define functions - in one file only */
 /* Winsock headers must come before windows.h */
-+  /* Keep GDI out to avoid FIXED conflicts elsewhere */
+/* Keep GDI out to avoid FIXED conflicts elsewhere */
 # define WIN32_LEAN_AND_MEAN
 # define NOGDI
 #  include <winsock2.h>
@@ -5328,9 +5328,21 @@ fapproxcurve(
 	double coef[2 /*B,C*/][MAXSECT];
 
   /* res is diagnostic; writes trigger -Wunused-but-set-variable. Make it volatile. */
-  volatile double res[MAXSECT][MAXSECT]; double thisres, bestres, goodres = DBL_MAX;
+  volatile double res[MAXSECT][MAXSECT]; double thisres, bestres, goodres;
   /*... computations that may fill res[...] and goodres ... */
-	(void)res[0][0]; /* mark content as read at least once */
+  int ii, jj;
+
+  bestres = DBL_MAX;
+  goodres = DBL_MAX;
+  for (ii = 0; ii < MAXSECT; ++ii) {
+    for (jj = 0; jj < MAXSECT; ++jj) {
+      res[ii][jj] = DBL_MAX;
+    }
+  }
+  (void)res[0][0]; /* mark content as read at least once */
+
+  /* now safe to compare against res[][],
+     and to minimize vs. bestres/goodres */
 
 	int ncoef[2 /*B,C*/], best[2 /*B,C*/], good[2 /*B,C*/];
 	int i, j, k, keepsym;

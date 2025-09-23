@@ -9,13 +9,17 @@ Version 1.3.13
   (https://github.com/wch/Rttf2pt1/issues/25#issuecomment-3320579566).
   
 * Fixed C code compilation warnings : -Wcomment, -Wparentheses, 
-  -Wunused-function, -Wunused-label, -Wunused-but-set-variable, -Wdeprecated-declarations
-  
+  -Wunused-function, -Wunused-label, -Wunused-but-set-variable, 
+  -Wdeprecated-declarations, -Wuninitialized
+
 * Fixed gcc-ASAN -Wstringop-overflow issue
 
 * Fixed include of <netinet/in.h> on Windows systems
 
-* Fixed [-Wimplicit-function-declaration] in Windows CRAN checks
+* Fixed -Wimplicit-function-declaration in Windows CRAN checks
+
+* Fixed FIXED issue, -Wmaybe-uninitialized, -Wunused-but-set-variable, 
+  -Wunused-function in Windows CRAN checks
 
 Version 1.3.12
 --------------
