@@ -66,6 +66,13 @@ static char portnotice[] =
 #include <ctype.h>
 #include <limits.h>
 
+/* MSVC/Windows printf size_t format helper */
+#if defined(_MSC_VER) && !defined(__clang__)
+#  define SIZET_FMT "%Iu"
+#else
+#  define SIZET_FMT "%zu"
+#endif
+
 /* MSVC shim for snprintf */
 #if defined(_MSC_VER) && !defined(snprintf)
 #  define snprintf _snprintf
@@ -385,13 +392,15 @@ static void charstring_start(void)
 
 static void charstring_byte(int v)
 {
-  byte b = (byte) (v & 0xff);
+  byte b = (byte)(v & 0xff);
 
-  if (charstring_bp - charstring_buf > sizeof(charstring_buf)) {
-    fprintf(stderr, "error: charstring_buf full (%zu bytes)\n",
-            sizeof(charstring_buf));
+  /* how many bytes are already in the buffer */
+  size_t used = (size_t)(charstring_bp - charstring_buf);
+  if (used >= sizeof(charstring_buf)) {
+    fprintf(stderr, "error: charstring_buf full (" SIZET_FMT " bytes)\n", used);
     exit(1);
   }
+
   *charstring_bp++ = cencrypt(b);
 }
 
