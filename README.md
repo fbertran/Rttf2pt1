@@ -1,7 +1,7 @@
 # Foreword
 
 The Rttf2pt1 R package was created and maintained by [Winston Chang](https://github.com/wch) on [github](https://github.com/wch/Rttf2pt1) for more than 13 years with a first commit on github the 11th of june 2012.
-The previous commit history of the package can be found [here](https://github.com/wch/Rttf2pt1/commits/master/).
+The previous commit history of the package can be found [here](https://github.com/wch/Rttf2pt1).
 The responsibilities and attention of Winston Chang are on things quite far away from extrafont and Rttf2pt1 these days. 
 As a consequence he asked for another person to maintain the Rttf2pt1 package and I ([Frederic Bertrand](https://github.com/fbertran)) volunteered [(read here)](https://github.com/wch/Rttf2pt1/issues/25#issuecomment-3320579566).
 
