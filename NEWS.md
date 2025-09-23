@@ -1,3 +1,11 @@
+Version 1.3.13
+----------------------------------------------------------------
+
+* Added Authors@R field in description to comply with CRAN requirements
+
+* Maintainer change. Frederic Bertrand is now the maintainer of the package.
+  (https://github.com/wch/Rttf2pt1/issues/25#issuecomment-3320579566).
+
 Version 1.3.12
 --------------
 

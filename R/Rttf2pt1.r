@@ -1,13 +1,6 @@
-#' Rttf2pt1 package
-#'
-#' This package is a wrapper for the ttf2pt1 program, and is meant
-#' to be used with the extrafont package.
-#'
-#' @name Rttf2pt1
-#' @docType package
-#' @aliases Rttf2pt1 package-Rttf2pt1
-NULL
-
+#' @keywords internal
+#' @aliases Rttf2pt1 Rttf2pt1-package NULL
+"_PACKAGE"
 
 #' Returns the path to the executable for ttf2pt1
 #'

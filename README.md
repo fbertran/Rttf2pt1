@@ -1,17 +1,25 @@
+# Foreword
+
+The Rttf2pt1 R package was created and maintained by [Winston Chang](https://github.com/wch) on [github](https://github.com/wch/Rttf2pt1) for more than 13 years with a first commit on github the 11th of june 2012.
+The previous commit history of the package can be found [here](https://github.com/wch/Rttf2pt1/commits/master/).
+The responsibilities and attention of Winston Chang are on things quite far away from extrafont and Rttf2pt1 these days. 
+As a consequence he asked for another person to maintain the Rttf2pt1 package and I ([Frederic Bertrand](https://github.com/fbertran)) volunteered [(read here)](https://github.com/wch/Rttf2pt1/issues/25#issuecomment-3320579566).
+
+The following text is an update the original [README.md](https://github.com/wch/Rttf2pt1/blob/main/README.md) from Winston Chang repository on [github](https://github.com/wch/Rttf2pt1).
+
+-------------------------
+
+
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/wch/Rttf2pt1/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/wch/Rttf2pt1/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/fbertran/Rttf2pt1/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/fbertran/Rttf2pt1/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 # Rttf2pt1
 
-The Rttf2p1 package for R is meant to be used with the [extrafont](https://github.com/wch/extrafont) package.
+The Rttf2p1 package for R is meant to be used with the [extrafont](https://github.com/fbertran/extrafont) package.
 
 This package contains the utility program `ttf2pt1`, and is in its own package for licensing reasons.
 It will be compiled on installation, so you need a build environment on your system.
-
-Note 2021-07-19: `ttf2pt1` has not been maintained since 2003, and it is getting increasingly difficult to make it compile without significant warnings on modern compilers, which in turn is making it difficult to maintain this package on CRAN. It is possible that in the future, I will not have time to keep this package on CRAN.
-
-If you are interested in maintaining this package, please file an issue on the repository.
 
 # Licensing notes
 
