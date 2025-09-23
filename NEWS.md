@@ -19,7 +19,9 @@ Version 1.3.13
 * Fixed -Wimplicit-function-declaration in Windows CRAN checks
 
 * Fixed FIXED issue, -Wmaybe-uninitialized, -Wunused-but-set-variable, 
-  -Wunused-function in Windows CRAN checks
+  -Wunused-function, -Wcomment, -Wparentheses in Windows CRAN checks
+  
+* Added lib to windows makefile
 
 Version 1.3.12
 --------------
