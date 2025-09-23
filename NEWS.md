@@ -5,6 +5,8 @@ Version 1.3.13
 
 * Maintainer change. Frederic Bertrand is now the maintainer of the package.
   (https://github.com/wch/Rttf2pt1/issues/25#issuecomment-3320579566).
+  
+* Fixed C code compilation warnings : -Wcomment, -Wparentheses, -Wunused-function, -Wunused-label, -Wunused-but-set-variable, 
 
 Version 1.3.12
 --------------
