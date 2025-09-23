@@ -90,12 +90,21 @@
 #  define BITBUCKET "/dev/null"
 #endif
 
+/* attribute for “maybe unused” things (GCC/Clang) */
+#ifndef RTTF2PT1_UNUSED
+# if defined(__GNUC__) || defined(__clang__)
+#  define RTTF2PT1_UNUSED __attribute__((unused))
+# else
+#  define RTTF2PT1_UNUSED
+# endif
+#endif
+
 /* code addition to fix [-Wimplicit-function-declaration] on Windows*/
 /* ---------- getopt portability (Windows shim) ---------- */
 #if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS)
 static char *optarg = NULL;
 static int optind = 1;
-static int opterr = 0;
+static int opterr RTTF2PT1_UNUSED = 0;  /* not used by this shim */
 static int ttf2pt1_getopt_impl(int argc, char * const argv[], const char *optstring) {
     static int optpos = 1;
     const char *arg;
@@ -1385,7 +1394,7 @@ convert_glyf(
 static void
 handle_gnames(void)
 {
-	int             i, n, found, c, type;
+	int             i, n, found, c, type = 0;
 
 	/* get the names from the font file */
 	ps_fmt_3 = cursw->glnames(glyph_list);

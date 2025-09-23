@@ -12,11 +12,23 @@
 #include <ctype.h>
 #include <math.h>
 
-#ifndef WINDOWS
-#	include <netinet/in.h>
-#	include <unistd.h>
+/* Portable platform includes */
+#if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS)
+#  define WINDOWS_FUNCTIONS /* ask to define functions - in one file only */
+/* Winsock headers must come before windows.h */
+#  include <winsock2.h>
+#  include <ws2tcpip.h>
+#  include <windows.h>
+
+/* MSVC prior to VS2015 lacks C99 snprintf; MinGW already has it */
+#  if defined(_MSC_VER) && (_MSC_VER < 1900) && !defined(snprintf)
+#    define snprintf _snprintf
+#  endif
 #else
-#	include "windows.h"
+#  include <unistd.h>
+#  include <sys/wait.h>
+#  include <arpa/inet.h>
+#  include <netinet/in.h>
 #endif
 
 #include "ttf.h"
