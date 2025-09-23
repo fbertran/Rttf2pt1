@@ -69,17 +69,28 @@
 #include <getopt.h>
 #endif
 
-#ifndef WINDOWS
-#	include <unistd.h>
-#	include <netinet/in.h>
-#	define BITBUCKET "/dev/null"
-#	include <sys/wait.h>
+/* Portable platform includes */
+#if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS)
+#  define WINDOWS_FUNCTIONS /* ask to define functions - in one file only */
+   /* Winsock headers must come before windows.h */
+#  include <winsock2.h>
+#  include <ws2tcpip.h>
+#  include <windows.h>
+#  define BITBUCKET "NUL"
+
+/* MSVC prior to VS2015 lacks C99 snprintf; MinGW already has it */
+#  if defined(_MSC_VER) && (_MSC_VER < 1900) && !defined(snprintf)
+#    define snprintf _snprintf
+#  endif
 #else
-#	define WINDOWS_FUNCTIONS /* ask to define functions - in one file only */
-#	include "windows.h"
-#	define BITBUCKET "NUL"
-#	define snprintf _snprintf
+#  include <unistd.h>
+#  include <sys/wait.h>
+#  include <arpa/inet.h>
+#  include <netinet/in.h>
+#  define BITBUCKET "/dev/null"
 #endif
+
+
 
 #include "pt1.h"
 #include "global.h"

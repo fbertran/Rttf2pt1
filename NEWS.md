@@ -3,6 +3,8 @@ Version 1.3.13
 
 * Added Authors@R field in description to comply with CRAN requirements
 
+* Update to fix a CRAN warning (using non partable flags during compilation)
+
 * Maintainer change. Frederic Bertrand is now the maintainer of the package.
   (https://github.com/wch/Rttf2pt1/issues/25#issuecomment-3320579566).
   
@@ -10,6 +12,8 @@ Version 1.3.13
   -Wunused-function, -Wunused-label, -Wunused-but-set-variable, -Wdeprecated-declarations
   
 * Fixed gcc-ASAN -Wstringop-overflow issue
+
+* Fixed include of <netinet/in.h> on Windows systems
 
 Version 1.3.12
 --------------
