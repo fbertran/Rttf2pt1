@@ -66,11 +66,27 @@ static char portnotice[] =
 #include <ctype.h>
 #include <limits.h>
 
-/* MSVC/Windows printf size_t format helper */
-#if defined(_MSC_VER) && !defined(__clang__)
-#  define SIZET_FMT "%Iu"
+/* Portable printf format for size_t without relying on %zu */
+#if !defined(SIZE_MAX)
+#  include <stdint.h>
+#endif
+#if defined(SIZE_MAX)
+#  if SIZE_MAX == UINT_MAX
+#    define SIZET_CAST unsigned int
+#    define SIZET_FMT  "%u"
+#  elif SIZE_MAX == ULONG_MAX
+#    define SIZET_CAST unsigned long
+#    define SIZET_FMT  "%lu"
+#  elif SIZE_MAX == ULLONG_MAX
+#    define SIZET_CAST unsigned long long
+#    define SIZET_FMT  "%llu"
+#  else
+#    define SIZET_CAST unsigned long
+#    define SIZET_FMT  "%lu"
+#  endif
 #else
-#  define SIZET_FMT "%zu"
+#  define SIZET_CAST unsigned long
+#  define SIZET_FMT  "%lu"
 #endif
 
 /* MSVC shim for snprintf */
@@ -397,7 +413,8 @@ static void charstring_byte(int v)
   /* how many bytes are already in the buffer */
   size_t used = (size_t)(charstring_bp - charstring_buf);
   if (used >= sizeof(charstring_buf)) {
-    fprintf(stderr, "error: charstring_buf full (" SIZET_FMT " bytes)\n", used);
+    fprintf(stderr, "error: charstring_buf full (" SIZET_FMT " bytes)\n",
+            (SIZET_CAST)used);
     exit(1);
   }
 
