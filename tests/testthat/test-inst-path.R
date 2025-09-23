@@ -1,5 +1,3 @@
-context("inst_path")
-
 test_that("inst_path() points to an existing directory", {
   inst <- get("inst_path", envir = asNamespace("Rttf2pt1"))
   p <- inst()

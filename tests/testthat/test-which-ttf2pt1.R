@@ -1,5 +1,3 @@
-context("which_ttf2pt1 behavior")
-
 test_that("which_ttf2pt1 returns a single string path or errors helpfully", {
   res <- tryCatch(Rttf2pt1::which_ttf2pt1(), error = function(e) e)
   if (inherits(res, "error")) {

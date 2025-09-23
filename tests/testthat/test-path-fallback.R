@@ -1,6 +1,6 @@
-context("PATH fallback / error messaging")
-
 test_that("errors if neither bundled binary nor PATH provide ttf2pt1", {
+  skip_on_cran()
+  skip_on_ci()
   which_bin <- function() {
     if (.Platform$OS.type == "unix") "ttf2pt1" else "ttf2pt1.exe"
   }
