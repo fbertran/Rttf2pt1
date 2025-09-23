@@ -17,6 +17,11 @@
 #include <ctype.h>
 #include <math.h>
 
+/* MSVC shim for snprintf */
+#if defined(_MSC_VER) && !defined(snprintf)
+#  define snprintf _snprintf
+#endif
+
 #ifndef WINDOWS
 #	include <unistd.h>
 #	include <netinet/in.h>
@@ -1009,7 +1014,8 @@ glnames(
                                 glyph_list[i].name = ps_name_ptr[n - 258];
                         } else {
                                 glyph_list[i].name = malloc(16);
-                                sprintf(glyph_list[i].name, "_g_%d", i);
+                                /* sprintf(glyph_list[i].name, "_g_%d", i); to silence -Wdeprecated-declarations*/
+                                (void)snprintf(glyph_list[i].name, 16, "_g_%d", i);
                                 WARNING_2 fprintf(stderr,
                                         "Glyph No. %d has no postscript name, becomes %s\n",
                                         i, glyph_list[i].name);
@@ -1023,7 +1029,8 @@ glnames(
                             fprintf (stderr, "****malloc failed %s line %d\n", __FILE__, __LINE__);
                             exit(255);
                         }
-                        sprintf(glyph_list[i].name, "_g_%d", i);
+                        /* sprintf(glyph_list[i].name, "_g_%d", i); to silence -Wdeprecated-declarations*/
+                        (void)snprintf(glyph_list[i].name, 16, "_g_%d", i);
                         WARNING_2 fprintf(stderr,
                                 "Glyph No. %d has no postscript name, becomes %s\n",
                                 i, glyph_list[i].name);

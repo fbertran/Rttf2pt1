@@ -85,6 +85,11 @@
 #include "global.h"
 #include "version.h"
 
+/* MSVC shim for snprintf */
+#if defined(_MSC_VER) && !defined(snprintf)
+#  define snprintf _snprintf
+#endif
+
 /* globals */
 
 /* table of front-ends */
@@ -600,7 +605,8 @@ unicode_init_user(
 		if( *arg == 0 || strlen(arg) > UNI_MAX_SUFFIX_LEN-1)
 			arg = NULL;
 		else {
-			sprintf(uni_suffix_buf, "-%s", arg);
+			/* sprintf(uni_suffix_buf, "-%s", arg); to silence -Wdeprecated-declarations*/
+		  (void)snprintf(uni_suffix_buf, sizeof uni_suffix_buf, "-%s", arg ? arg : "");
 			uni_font_name_suffix = uni_suffix_buf;
 		}
 	}
@@ -1096,7 +1102,8 @@ unicode_plane(
 			fprintf(stderr, "**** plane number is too large\n");
 		}
 
-		sprintf(uni_suffix_buf, "-%s", arg);
+		/* sprintf(uni_suffix_buf, "-%s", arg); to silence -Wdeprecated-declarations*/
+		(void)snprintf(uni_suffix_buf, sizeof uni_suffix_buf, "-%s", arg ? arg : "");
 		uni_font_name_suffix = uni_suffix_buf;
 	} else {
 		uni_font_name_suffix = "";
@@ -1156,7 +1163,8 @@ nametoprint(
 
 	for(i=0; ( c =* s )!=0 && i<sizeof(res)-8; s++) {
 		if(c < ' ' || c > 126) {
-			sprintf(res+i, "\\x%02X", c);
+		  /* sprintf(res+i, "\\x%02X", c); to silence -Wdeprecated-declarations*/
+		  (void)snprintf(res+i, sizeof(res)-i, "\\x%02X", (unsigned char)c);
 			i+=4;
 		} else {
 			res[i++] = c;
@@ -1334,7 +1342,8 @@ handle_gnames(void)
 						"has bad characters in name",
 					nametoprint(glyph_list[n].name));
 				glyph_list[n].name = malloc(16);
-				sprintf(glyph_list[n].name, "_b_%d", n);
+				/* sprintf(glyph_list[n].name, "_b_%d", n); to silence -Wdeprecated-declarations*/
+				(void)snprintf(glyph_list[n].name, 16, "_b_%d", n);
 				WARNING_3 fprintf(stderr, "changing to %s\n", glyph_list[n].name);
 				break;
 			}
@@ -1351,7 +1360,8 @@ handle_gnames(void)
 						fprintf (stderr, "****malloc failed %s line %d\n", __FILE__, __LINE__);
 						exit(255);
 					}
-					sprintf(glyph_list[n].name, "_d_%d", n);
+					/* sprintf(glyph_list[n].name, "_d_%d", n); to silence -Wdeprecated-declarations*/
+					(void)snprintf(glyph_list[n].name, 16, "_d_%d", n);
 
 					/* if the font has no names in it (what the native parser
 					 * recognises as ps_fmt_3), FreeType returns all the
@@ -1442,7 +1452,8 @@ handle_gnames(void)
 					fprintf (stderr, "****malloc failed %s line %d\n", __FILE__, __LINE__);
 					exit(255);
 				}
-				sprintf(glyph_list[i].name, "_d_%d", i);
+				/* sprintf(glyph_list[i].name, "_d_%d", i); to silence -Wdeprecated-declarations*/
+				(void)snprintf(glyph_list[i].name, 16, "_d_%d", i);
 			}
 		}
 	}

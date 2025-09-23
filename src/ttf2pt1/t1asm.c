@@ -45,7 +45,7 @@
 #endif
 
 #ifndef lint
-static char copyright[] =
+static RTTF2PT1_UNUSED char copyright[] =
   "@(#) Copyright (c) 1992 by I. Lee Hetherington, all rights reserved.";
 #ifdef _MSDOS
 static char portnotice[] =
@@ -65,6 +65,11 @@ static char portnotice[] =
 #include <string.h>
 #include <ctype.h>
 #include <limits.h>
+
+/* MSVC shim for snprintf */
+#if defined(_MSC_VER) && !defined(snprintf)
+#  define snprintf _snprintf
+#endif
 
 #ifdef WINDOWS
 #	ifdef STANDALONE
@@ -397,10 +402,15 @@ static void charstring_end(void)
 {
   byte *bp;
 
-  sprintf(line, "%ld ", charstring_bp - charstring_buf);
+  /* sprintf(line, "%ld ", charstring_bp - charstring_buf); to silence -Wdeprecated-declarations*/
+  (void)snprintf(line, sizeof line, "%ld ",
+                 (long)(charstring_bp - charstring_buf));
   eexec_string(line);
-  sprintf(line, "%s ", cs_start);
+
+  /* sprintf(line, "%s ", cs_start); to silence -Wdeprecated-declarations*/
+  (void)snprintf(line, sizeof line, "%s ", cs_start[0] ? cs_start : "");
   eexec_string(line);
+
   for (bp = charstring_buf; bp < charstring_bp; bp++)
     eexec_byte(*bp);
 }
