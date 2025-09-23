@@ -98,6 +98,7 @@
 #  define RTTF2PT1_UNUSED
 # endif
 #endif
+#define UNUSED(x) (void)(x)
 
 /* code addition to fix [-Wimplicit-function-declaration] on Windows*/
 /* ---------- getopt portability (Windows shim) ---------- */
@@ -144,9 +145,9 @@ static int ttf2pt1_getopt_impl(int argc, char * const argv[], const char *optstr
 #  define pipe  ttf2pt1_pipe_stub
 #  define fork  ttf2pt1_fork_stub
 #  define wait  ttf2pt1_wait_stub
-static int ttf2pt1_pipe_stub(int pfd[2])       { (void)pfd; errno = ENOSYS; return -1; }
-static int ttf2pt1_fork_stub(void)             { errno = ENOSYS; return -1; }
-static int ttf2pt1_wait_stub(int *ws)          { (void)ws; errno = ENOSYS; return -1; }
+static RTTF2PT1_UNUSED int ttf2pt1_pipe_stub(int pfd[2])       { (void)pfd; errno = ENOSYS; return -1; }
+static RTTF2PT1_UNUSED int ttf2pt1_fork_stub(void)             { errno = ENOSYS; return -1; }
+static RTTF2PT1_UNUSED int ttf2pt1_wait_stub(int *ws)          { (void)ws; errno = ENOSYS; return -1; }
 #endif
 
 #include "pt1.h"
@@ -1788,7 +1789,9 @@ main(
 
 /* #ifdef _GNU_SOURCE to fix [-Wimplicit-function-declaration] on Windows*/
 	#if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS)
-	#	define ttf2pt1_getopt(a, b, c, d, e)	ttf2pt1_getopt_impl((a),(b),(c))
+    /* Windows build doesn't use ws; keep compilers happy */
+    UNUSED(ws);
+	  #	define ttf2pt1_getopt(a, b, c, d, e)	ttf2pt1_getopt_impl((a),(b),(c))
 	#elif defined(_GNU_SOURCE)
 
   #	define ttf2pt1_getopt(a, b, c, d, e)	getopt_long(a, b, c, d, e)

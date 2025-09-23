@@ -16,10 +16,12 @@
 #if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS)
 #  define WINDOWS_FUNCTIONS /* ask to define functions - in one file only */
 /* Winsock headers must come before windows.h */
++  /* Keep GDI out to avoid FIXED conflicts elsewhere */
+# define WIN32_LEAN_AND_MEAN
+# define NOGDI
 #  include <winsock2.h>
 #  include <ws2tcpip.h>
 #  include <windows.h>
-
 /* MSVC prior to VS2015 lacks C99 snprintf; MinGW already has it */
 #  if defined(_MSC_VER) && (_MSC_VER < 1900) && !defined(snprintf)
 #    define snprintf _snprintf
@@ -31,6 +33,8 @@
 #  include <netinet/in.h>
 #endif
 
+#include <limits.h>
+#include <float.h>
 #include "ttf.h"
 #include "pt1.h"
 #include "global.h"
@@ -155,7 +159,8 @@ static void fixendpath( GENTRY *ge);
 static void fdelsmall( GLYPH *g, double minlen);
 static void alloc_gex_con( GENTRY *ge);
 static double fjointsin2( GENTRY *ge1, GENTRY *ge2);
-static RTTF2PT1_UNUSED double fcvarea( GENTRY *ge);
+/* drop unused prototype to avoid 'declared static but never defined' */
+/* static double fcvarea( GENTRY *ge); */
 static double fcvval( GENTRY *ge, int axis, double t);
 static void fsampledots( GENTRY *ge, double dots[][2], int ndots);
 static void fnormalizege( GENTRY *ge);
@@ -299,7 +304,7 @@ assertpath(
 	   char *name
 )
 {
-	GENTRY         *first, *pe, *ge;
+	GENTRY         *first = NULL, *pe, *ge;
 	int	isfloat;
 
 	if(from==0)
@@ -2885,8 +2890,10 @@ findstemat(
 {
 	int i, min, max;
 	int v, si;
-	int pri, prevpri; /* priority, 0 = has ST_END, 1 = no ST_END */
-	int wd, prevwd; /* stem width */
+  /* pri, prevpri : priority, 0 = has ST_END, 1 = no ST_END */
+  int pri, prevpri = INT_MIN; /* initialize to safe sentinel */
+  /* wd, prevwd : stem width */
+  int wd, prevwd = INT_MAX;   /* initialize to safe sentinel */
 
 	si= -1; /* nothing yet */
 
@@ -5319,7 +5326,12 @@ fapproxcurve(
 	double from[2 /*B,C*/], to[2 /*B,C*/];
 	double middf[2 /*B,C*/][2 /*X,Y*/], df;
 	double coef[2 /*B,C*/][MAXSECT];
-	double res[MAXSECT][MAXSECT], thisres, bestres, goodres;
+
+  /* res is diagnostic; writes trigger -Wunused-but-set-variable. Make it volatile. */
+  volatile double res[MAXSECT][MAXSECT]; double thisres, bestres, goodres = DBL_MAX;
+  /*... computations that may fill res[...] and goodres ... */
+	(void)res[0][0]; /* mark content as read at least once */
+
 	int ncoef[2 /*B,C*/], best[2 /*B,C*/], good[2 /*B,C*/];
 	int i, j, k, keepsym;
 	char bc[]="BC";
@@ -7100,8 +7112,8 @@ reversepathsfromto(
 {
 	GENTRY         *ge, *nge, *pge;
 	GENTRY         *cur, *next;
-	int i, n, ilast[2];
-	double flast[2], f;
+  int i, n, ilast[2] = {0,0};
+  double flast[2] = {0.0,0.0}, f;
 
 	for (ge = from; ge != 0 && ge != to; ge = ge->next) {
 		if(ge->type == GE_LINE || ge->type == GE_CURVE) {
