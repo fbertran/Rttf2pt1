@@ -1,7 +1,6 @@
+.gitignore
 ^.*\.Rproj$
 ^\.Rproj\.user$
-\.sublime-project$
-\.sublime-workspace$
 ^\.github$
 ^cran-comments.md*
-.DS_Store
+\.DS_Store$
