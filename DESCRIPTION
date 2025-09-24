@@ -1,6 +1,11 @@
 Package: Rttf2pt1
+Type: Package
 Title: 'ttf2pt1' Program
 Version: 1.3.13
+Date: 2025-09-24
+Depends:
+    R (>= 2.15)
+Suggests: testthat, withr (>= 2.5.0)
 Authors@R: c(person(given = "Winston",
                       family = "Chang",
                       role = c("aut"),
@@ -72,12 +77,11 @@ Maintainer: Frederic Bertrand <frederic.bertrand@lecnam.net>
 Description: Contains the program 'ttf2pt1', for use with the
     'extrafont' package. This product includes software developed by the 'TTF2PT1'
     Project and its contributors.
-Depends:
-    R (>= 2.15)
-Suggests: testthat, withr (>= 2.5.0)
 License: file LICENSE
 URL: https://github.com/fbertran/Rttf2pt1
 BugReports: https://github.com/fbertran/Rttf2pt1/issues
+LazyLoad: yes
+NeedsCompilation: yes
 Encoding: UTF-8
 RoxygenNote: 7.3.3
 Config/testthat/edition: 3
