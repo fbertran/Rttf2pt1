@@ -7,14 +7,14 @@ As a consequence he asked for another person to maintain the Rttf2pt1 package an
 
 The following text is an update the original [README.md](https://github.com/wch/Rttf2pt1/blob/main/README.md) from Winston Chang repository on [github](https://github.com/wch/Rttf2pt1).
 
+**2025-09-24: Rttf2pt1 is back to CRAN.**
+
+
 -------------------------
 
-
-<!-- badges: start -->
-[![R-CMD-check](https://github.com/fbertran/Rttf2pt1/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/fbertran/Rttf2pt1/actions/workflows/R-CMD-check.yaml)
-<!-- badges: end -->
-
 # Rttf2pt1
+
+<https://doi.org/10.32614/CRAN.package.Rttf2pt1>
 
 The Rttf2p1 package for R is meant to be used with the [extrafont](https://github.com/fbertran/extrafont) package.
 
@@ -24,3 +24,13 @@ It will be compiled on installation, so you need a build environment on your sys
 # Licensing notes
 
 This product includes software developed by the TTF2PT1 Project and its contributors.
+
+-------------------------
+
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/fbertran/Rttf2pt1/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/fbertran/Rttf2pt1/actions/workflows/R-CMD-check.yaml)
+[![DOI](https://img.shields.io/badge/doi-10.32614/CRAN.package.Rttf2pt1-blue.svg)](https://doi.org/10.32614/CRAN.package.Rttf2pt1)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![CRAN status](https://www.r-pkg.org/badges/version/Rttf2pt1)](https://cran.r-project.org/package=Rttf2pt1)
+<!-- badges: end -->
