@@ -1,3 +1,8 @@
+Version 1.3.14
+----------------------------------------------------------------
+
+* Fixed -Wformat, -Wformat-extra-args in Windows oldrelease CRAN checks.
+
 Version 1.3.13
 ----------------------------------------------------------------
 
